@@ -1,3 +1,9 @@
 {
-    "installCommand": "bun install"
+    "installCommand": "bun install",
+    "routes": [
+        {
+          "src": "/(.*)",
+          "dest": "/index.ts"
+        }
+      ]
 }
