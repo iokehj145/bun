@@ -17,12 +17,11 @@ app.get("/", async () => {
     return ("Hello world, from Yaric!")
 })
 
-app.post("/user", async(request: any, response: any) => {
+app.post("/user", async(request: any) => {
  try{
     const user : User = await (request.body as Promise<User>)
     Users.run(`INSERT INTO USERS VALUES('${user.name}', '${user.password}', '${user.email}')`);
     console.log(`Add user ${user.name}, email ${user.email}, password ${user.password}`)
-    return response.status(200).send(null)
     } 
     catch(error){
     console.log(error);
