@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
 import { Database } from "bun:sqlite";
 
-const Users = new Database("./Database/Users.sqlite", {create: true});
+const Users = new Database("./Users.sqlite", {create: true});
 Users.run(`CREATE TABLE IF NOT EXISTS users (name TEXT, password TEXT, email TEXT)`);
 
 const app = new Elysia();
