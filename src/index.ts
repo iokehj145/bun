@@ -17,12 +17,12 @@ app.get("/", async () => {
     return ("Hello world, from Yaric!")
 })
 
-app.post("/user", async(request) => {
+app.post("/user", async(request: any, response: any) => {
  try{
     const user : User = await (request.body as Promise<User>)
-    await Users.run(`INSERT INTO USERS VALUES('${user.name}', '${user.password}', '${user.email}')`);
+    Users.run(`INSERT INTO USERS VALUES('${user.name}', '${user.password}', '${user.email}')`);
     console.log(`Add user ${user.name}, email ${user.email}, password ${user.password}`)
-    return (`I make user ${user.name}, email ${user.email}, password ${user.password}`)
+    return response.status(200).send(null)
     } 
     catch(error){
     console.log(error);
@@ -30,11 +30,9 @@ app.post("/user", async(request) => {
  }
 })
 
-app.get("/users", async(req:any, res: any) => {
+app.get("/users", async() => {
   try {
-    const users = await Promise.resolve(Users.query("SELECT * FROM USERS").all())
-    res.json(users)
-    return res
+    return await Promise.resolve(Users.query("SELECT * FROM USERS").all())
     }
     catch (error){
     console.log(error);
