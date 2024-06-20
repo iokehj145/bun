@@ -1,5 +1,10 @@
 import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
+import { Database } from "bun:sqlite";
+
+const Users = new Database("./Database/Users.sqlite", {create: true});
+Users.run(`CREATE TABLE IF NOT EXISTS users (name TEXT, password TEXT, email TEXT)`);
+
 const app = new Elysia();
 app.use(cors());
 interface User {
@@ -7,7 +12,6 @@ interface User {
     password: string;
     email: string;
 }
-let users: User[] = [{name: "Yaric", password: "12345", email: "Some@gmail.com"}];
 
 app.get("/", async () => {
     return ("Hello world, from Yaric!")
@@ -15,19 +19,29 @@ app.get("/", async () => {
 
 app.post("/user", async(request) => {
  try{
-    const user : User = await (request.body as Promise<User>);
-    users.push(user);
-    console.log(`Add user ${user.name}, email ${user.email}, password ${user.password}`);
+    const user : User = await (request.body as Promise<User>)
+    await Users.run(`INSERT INTO USERS VALUES('${user.name}', '${user.password}', '${user.email}')`);
+    console.log(`Add user ${user.name}, email ${user.email}, password ${user.password}`)
     return (`I make user ${user.name}, email ${user.email}, password ${user.password}`)
     } 
     catch(error){
-    return (error);
+    console.log(error);
+    return (error)
  }
 })
 
-app.get("/users", () => {
-    return (users)
+app.get("/users", async(req:any, res: any) => {
+  try {
+    const users = await Promise.resolve(Users.query("SELECT * FROM USERS").all())
+    res.json(users)
+    return res
+    }
+    catch (error){
+    console.log(error);
+    return error
+  }
 })
-app.listen(8000)
 
-console.log("Server begin");
+app.listen(8000, () => {
+    console.log("Server begin")
+});

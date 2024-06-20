@@ -1,5 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+base.ts
+
 # dependencies
 /node_modules
 /.pnp
@@ -7,7 +9,7 @@
 
 # testing
 /coverage
-
+*.sqlite
 # next.js
 /.next/
 /out/
@@ -30,8 +32,6 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# vercel
-.vercel
 
 **/*.trace
 **/*.zip
