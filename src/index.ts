@@ -14,7 +14,7 @@ interface User {
 }
 
 app.get("/", async () => {
-    return ("Hello world, from Yaric!")
+    return ("Hello world, from Yaric!") //
 })
 
 app.post("/user", async(request: any) => {
