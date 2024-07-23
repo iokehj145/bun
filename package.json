@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@elysiajs/cors": "^1.0.2",
+    "@elysiajs/lucia-auth": "^1.1.0-exp.1",
     "elysia": "latest",
     "sqlite": "^5.1.1"
   },
